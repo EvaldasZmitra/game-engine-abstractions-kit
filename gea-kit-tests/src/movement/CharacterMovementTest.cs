@@ -106,13 +106,13 @@ namespace GeaKit.Test {
             )).Callback<TimeSpan, Action>((_, action) => {
                 delayAction = action;
             });
-
             var characterMovement = new CharacterMovement(
                 rb,
-                engineHook.Object
+                engineHook.Object,
+                0.3f
             );
 
-            characterMovement.Jump(1.0f, 0.3f);
+            characterMovement.Jump(1.0f);
             delayAction.Invoke();
             characterMovement.Jump(1.0f);
 

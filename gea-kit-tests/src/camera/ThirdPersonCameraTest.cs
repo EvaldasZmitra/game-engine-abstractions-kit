@@ -1,6 +1,5 @@
 using Xunit;
 using GeaKit.Camera;
-using GameMakingKit.Interfaces;
 using System.Numerics;
 
 namespace GeaKit.Test {
