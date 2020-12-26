@@ -129,7 +129,7 @@ namespace GeaKit.Test {
 
             rb.IsGrounded = false;
             characterMovement.Jump(6f);
-            Assert.Equal(6f, rb.Velocity.Y);
+            Assert.Equal(0, rb.Velocity.Y);
         }
     }
 }

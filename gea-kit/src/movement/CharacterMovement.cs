@@ -22,9 +22,10 @@ namespace GeaKit.Movement {
         }
 
         public void Jump(float speed) {
-            if (_cooldown.Ready) {
-                _cooldown.Start();
-                _rb.Velocity += new Vector3(0, speed, 0);
+            if (_rb.IsGrounded) {
+                _cooldown.StartAndDoIfReady(() => {
+                    _rb.Velocity += new Vector3(0, speed, 0);
+                });
             }
         }
 
