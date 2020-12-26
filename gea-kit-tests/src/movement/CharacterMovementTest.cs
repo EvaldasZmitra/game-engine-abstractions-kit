@@ -121,7 +121,15 @@ namespace GeaKit.Test {
 
         [Fact]
         public void CanOnlyJumpWhenGrounded() {
-            //TODO: it
+            var rb = new RigidBody();
+            var characterMovement = new CharacterMovement(
+                rb,
+                new Mock<IEngineHook>().Object
+            );
+
+            rb.IsGrounded = false;
+            characterMovement.Jump(6f);
+            Assert.Equal(6f, rb.Velocity.Y);
         }
     }
 }
