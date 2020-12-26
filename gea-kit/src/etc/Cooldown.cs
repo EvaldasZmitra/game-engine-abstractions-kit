@@ -14,10 +14,19 @@ namespace GeaKit.Etc {
         }
 
         public void Start() {
-            Ready = false;
-            _engineHook.Delay(_delay, () => {
-                Ready = true;
-            });
+            if (Ready) {
+                Ready = false;
+                _engineHook.Delay(_delay, () => {
+                    Ready = true;
+                });
+            }
+        }
+
+        public void StartAndDoIfReady(Action action) {
+            if (Ready) {
+                Start();
+                action.Invoke();
+            }
         }
     }
 }
