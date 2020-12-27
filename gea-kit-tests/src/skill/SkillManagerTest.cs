@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GeaKit.Etc;
 using GeaKit.Skill;
@@ -46,7 +47,8 @@ namespace GeaKit.Test {
                 }
             );
             statusManager.AddStatus(new Status() {
-                Type = StatusType.CantMove
+                Type = StatusType.CantMove,
+                Cooldown = new Cooldown(TimeSpan.FromSeconds(99f), _engineHook)
             });
 
             skillManager.UseSkill(skill.Object);

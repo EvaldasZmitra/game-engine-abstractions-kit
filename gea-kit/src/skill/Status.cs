@@ -1,4 +1,5 @@
 using System;
+using GeaKit.Etc;
 
 namespace GeaKit.Skill {
     public enum StatusType {
@@ -8,7 +9,7 @@ namespace GeaKit.Skill {
 
     [Serializable]
     public struct Status {
-        public TimeSpan Duration;
+        public Cooldown Cooldown;
         public StatusType Type;
     }
 }

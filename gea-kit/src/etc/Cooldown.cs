@@ -7,6 +7,8 @@ namespace GeaKit.Etc {
         private readonly TimeSpan _delay;
         private float _counter;
 
+        private Action _onReadyAction;
+
 
         public Cooldown(TimeSpan delay, IEngineHook engineHook) {
             _delay = delay;
@@ -25,9 +27,20 @@ namespace GeaKit.Etc {
             }
         }
 
+        public void StartAndDoWhenCompleted(Action action) {
+            if (Ready) {
+                Start();
+                _onReadyAction = action;
+            }
+        }
+
         private void Update(float dt) {
             if (!Ready) {
                 if (_counter >= _delay.TotalSeconds) {
+                    if (_onReadyAction != null) {
+                        _onReadyAction.Invoke();
+                        _onReadyAction = null;
+                    }
                     Ready = true;
                     return;
                 }
