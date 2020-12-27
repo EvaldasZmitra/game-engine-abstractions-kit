@@ -21,9 +21,9 @@ namespace GeaKit.Skill {
             }
 
             _statusDict[status.Type].Add(status);
-            _engineHook.Delay(status.Duration, () => {
-                _statusDict[status.Type].Remove(status);
-            });
+            // _engineHook.Delay(status.Duration, () => {
+            //     _statusDict[status.Type].Remove(status);
+            // });
         }
     }
 }

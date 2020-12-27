@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
-using GameMakingKit.Interfaces;
 using GeaKit.Etc;
 using GeaKit.Skill;
 using Moq;
 using Xunit;
 
 namespace GeaKit.Test {
-    public class SkillManagerTest {
+    public class SkillManagerTest : EngineTest {
         [Theory]
         [InlineData(0, 20, 0, 0)]
         [InlineData(100, 20, 1, 80)]
@@ -18,12 +16,7 @@ namespace GeaKit.Test {
             float manaLeft
         ) {
             var resource = new Resource<float>(mana, 0, 100);
-            var engineHook = new Mock<IEngineHook>();
-            engineHook.Setup(it => it.Delay(
-                It.IsAny<TimeSpan>(),
-                It.IsAny<Action>()
-            ));
-            var statusManager = new StatusManager(engineHook.Object);
+            var statusManager = new StatusManager(_engineHook);
             var skillManager = new SkillManager(resource, statusManager);
             var skill = new Mock<ISkill>();
             skill.Setup(it => it.Use());
@@ -43,12 +36,7 @@ namespace GeaKit.Test {
         public void SkillWhenStatus() {
             var resource = new Resource<float>(100, 0, 100);
             var skill = new Mock<ISkill>();
-            var engineHook = new Mock<IEngineHook>();
-            engineHook.Setup(it => it.Delay(
-                It.IsAny<TimeSpan>(),
-                It.IsAny<Action>()
-            ));
-            var statusManager = new StatusManager(engineHook.Object);
+            var statusManager = new StatusManager(_engineHook);
             var skillManager = new SkillManager(resource, statusManager);
             skill.Setup(it => it.Use());
             skill.Setup(it => it.Cost).Returns(0);

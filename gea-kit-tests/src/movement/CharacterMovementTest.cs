@@ -6,7 +6,7 @@ using Moq;
 using Xunit;
 
 namespace GeaKit.Test {
-    public class CharacterMovementTest {
+    public class CharacterMovementTest : EngineTest {
         [Fact]
         public void MovesTheory() {
             MovesFact(new Vector2(1f, 0), new Vector3(1f, 0, 0));
@@ -34,14 +34,14 @@ namespace GeaKit.Test {
             RotatesFact(-45f, new Vector3(0, -45f, 0));
         }
 
-        private static void RotatesFact(
+        private void RotatesFact(
             float angle,
             Vector3 expectedRotation
         ) {
             var rb = new RigidBody();
             var characterMovement = new CharacterMovement(
                 rb,
-                new Mock<IEngineHook>().Object
+                _engineHook
             );
             characterMovement.Rotate(angle);
 
@@ -73,7 +73,7 @@ namespace GeaKit.Test {
             var rb = new RigidBody();
             var characterMovement = new CharacterMovement(
                 rb,
-                new Mock<IEngineHook>().Object
+                _engineHook
             );
             characterMovement.Move(new Vector2(0, 1f));
             characterMovement.Jump(1f);
@@ -86,7 +86,7 @@ namespace GeaKit.Test {
             var rb = new RigidBody();
             var characterMovement = new CharacterMovement(
                 rb,
-                new Mock<IEngineHook>().Object
+                _engineHook
             );
 
             characterMovement.Jump(1.0f);
@@ -98,22 +98,14 @@ namespace GeaKit.Test {
         [Fact]
         public void CanJumpAgainAfterCooldown() {
             var rb = new RigidBody();
-            var engineHook = new Mock<IEngineHook>();
-            Action delayAction = null;
-            engineHook.Setup(it => it.Delay(
-                TimeSpan.FromSeconds(0.3f),
-                It.IsAny<Action>()
-            )).Callback<TimeSpan, Action>((_, action) => {
-                delayAction = action;
-            });
             var characterMovement = new CharacterMovement(
                 rb,
-                engineHook.Object,
+                _engineHook,
                 0.3f
             );
 
             characterMovement.Jump(1.0f);
-            delayAction.Invoke();
+            LoopEngineTimes(10, 0.1f);
             characterMovement.Jump(1.0f);
 
             Assert.Equal(new Vector3(0, 2.0f, 0), rb.Velocity);
@@ -124,7 +116,7 @@ namespace GeaKit.Test {
             var rb = new RigidBody();
             var characterMovement = new CharacterMovement(
                 rb,
-                new Mock<IEngineHook>().Object
+                _engineHook
             );
 
             rb.IsGrounded = false;

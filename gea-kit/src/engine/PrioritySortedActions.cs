@@ -24,7 +24,6 @@ namespace GeaKit.Engine {
             foreach (var actionList in _actions) {
                 ExecuteActionList(actionList.Value, deltaTime);
             }
-            _actions.Clear();
         }
 
         private static void ExecuteActionList(

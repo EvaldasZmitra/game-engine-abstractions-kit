@@ -2,7 +2,7 @@ using GeaKit.Engine;
 using Xunit;
 
 namespace GeaKit.Test {
-    public class EngineUpdateTest {
+    public class PrioritySortedActionsTest {
         [Fact]
         public void UpdatesAreExecuted() {
             var engineUpdate = new PrioritySortedActions();
@@ -13,7 +13,7 @@ namespace GeaKit.Test {
 
             engineUpdate.ExecuteAll(0);
             engineUpdate.ExecuteAll(0);
-            Assert.Equal(1, executionCount);
+            Assert.Equal(2, executionCount);
         }
 
         [Fact]

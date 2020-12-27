@@ -5,27 +5,33 @@ namespace GeaKit.Etc {
     public class Cooldown {
         public bool Ready { get; private set; } = true;
         private readonly TimeSpan _delay;
-        private readonly IEngineHook _engineHook;
+        private float _counter;
 
 
         public Cooldown(TimeSpan delay, IEngineHook engineHook) {
             _delay = delay;
-            _engineHook = engineHook;
+            engineHook.AddUpdate(Update);
         }
 
         public void Start() {
-            if (Ready) {
-                Ready = false;
-                _engineHook.Delay(_delay, () => {
-                    Ready = true;
-                });
-            }
+            Ready = false;
+            _counter = 0;
         }
 
         public void StartAndDoIfReady(Action action) {
             if (Ready) {
                 Start();
                 action.Invoke();
+            }
+        }
+
+        private void Update(float dt) {
+            if (!Ready) {
+                if (_counter >= _delay.TotalSeconds) {
+                    Ready = true;
+                    return;
+                }
+                _counter += dt;
             }
         }
     }
