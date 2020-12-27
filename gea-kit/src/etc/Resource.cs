@@ -1,7 +1,7 @@
 using System;
 
 namespace GeaKit.Etc {
-    public class MinMaxValue<T> where T : IComparable {
+    public class Resource<T> where T : IComparable {
         public T Value {
             get {
                 return _value;
@@ -16,7 +16,7 @@ namespace GeaKit.Etc {
         private readonly T _min;
         private readonly T _max;
 
-        public MinMaxValue(T value, T min, T max) {
+        public Resource(T value, T min, T max) {
             _max = max;
             _min = min;
             Value = value;

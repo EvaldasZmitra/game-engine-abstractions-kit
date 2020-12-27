@@ -12,7 +12,7 @@ namespace GeaKit.Etc {
             float max,
             float expectedValue
         ) {
-            var minMaxValue = new MinMaxValue<float>(value, min, max);
+            var minMaxValue = new Resource<float>(value, min, max);
             Assert.Equal(expectedValue, minMaxValue.Value);
         }
     }
